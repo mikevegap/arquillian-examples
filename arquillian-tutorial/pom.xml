@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
         http://maven.apache.org/POM/4.0.0
         http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -119,10 +119,16 @@
                     <type>pom</type>
                     <scope>provided</scope>
                 </dependency>
-                <dependency>
+                <!--<dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
                     <version>7.1.1.Final</version>
+                    <scope>test</scope>
+                </dependency>-->
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <version>2.1.0.Final</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
@@ -135,7 +141,7 @@
             <!-- Remove it if you want to use an existing installation defined by the JBOSS_HOME environment variable -->
             <build>
                 <plugins>
-                    <plugin>
+                    <!--<plugin>
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
                             <execution>
@@ -150,6 +156,36 @@
                                             <groupId>org.jboss.as</groupId>
                                             <artifactId>jboss-as-dist</artifactId>
                                             <version>7.1.1.Final</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>-->
+
+                    <!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.8</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-dist</artifactId>
+                                            <version>10.1.0.Final</version>
+
                                             <type>zip</type>
                                             <overWrite>false</overWrite>
                                             <outputDirectory>target</outputDirectory>
